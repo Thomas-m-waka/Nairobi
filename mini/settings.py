@@ -76,9 +76,11 @@ WSGI_APPLICATION = 'mini.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+import dj_database_url
+import environ 
 DATABASES = {
-    'default': {
+    'default': dj_database_url.parse(config('DATABASE_URL')),
+    'second_database': {
         'ENGINE': config('DB_ENGINE'),
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
@@ -92,7 +94,16 @@ DATABASES = {
 
 
 
-# Password validation
+
+
+
+
+
+
+
+
+SECURE_SSL_REDIRECT = True
+
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -141,7 +152,7 @@ LOGOUT_REDIRECT_URL = "home"
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SESSION_EXPIRE_SECONDS = 1000
+SESSION_EXPIRE_SECONDS =1800
 
 SESSION_COOKIE_AGE = 1000
 
@@ -155,3 +166,10 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT=BASE_DIR / 'media'
+
+
+
+
+SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=0, cast=int)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False, cast=bool)
+SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=False, cast=bool)
